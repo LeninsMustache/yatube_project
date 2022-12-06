@@ -4,25 +4,11 @@
   Последние обновления на сайте
 {% endblock %}
 {% block content %} 
-  <!-- класс py-5 создает отступы сверху и снизу блока -->
   <div class="container py-5">     
     <h1>Главная страница</h1>
-    {% for post in posts %}
-      <article>
-        <ul>
-          <li>
-            Автор: {{ post.author.get_full_name }}
-          </li>
-          <li>
-            Дата публикации: {{ post.pub_date|date:"d E Y" }}
-          </li>
-        </ul>
-        <p>{{ post.text|linebreaksbr }}</p>    
-        {% if post.group %}   
-          <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
-        {% endif %}
-        {% if not forloop.last %}<hr>{% endif %}
-      </article>
+    {% for post in page_obj %}
+      {% include 'posts/includes/post_card.html' with show_group_link=True show_author_link=True %}
     {% endfor %}
+    {% include 'posts/includes/paginator.html' %}
   </div>  
 {% endblock %}
